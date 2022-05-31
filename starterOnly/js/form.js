@@ -2,13 +2,13 @@
  * Gère les intéractions du formulaire d'inscription 
  */
 // (key, value) => (input.name, message)
-const messages = {"first":"Votre prénom doit avoir un minimum de 2 caractères et ne peut pas être vide.",
-                  "last":"Votre nom doit avoir un minimum de 2 caractères et ne peut pas être vide.",
+const messages = {"first":"Votre prénom doit avoir un minimum de 2 caractères.",
+                  "last":"Votre nom doit avoir un minimum de 2 caractères.",
                   "email":"Votre adresse électronique doit être valide.",
                   "birthdate":"Vous devez entrer votre date de naissance.",
                   "quantity":"Vous devez saisir le nombre de concours participés ou aucun.",
-                  "location":"Vous devez choisir une option le tournoi auquel participer.",
-                  "accept1":"Vous devez vérifier que vous acceptez les termes et les conditions d'utilisation.",
+                  "location":"Vous devez choisir une option pour un tournoi.",
+                  "accept1":"Vous devez vérifier que vous acceptez les termes et les conditions.",
                   "accept2":""};
 /*
     Fonction principale pour la logique
@@ -76,7 +76,7 @@ const validateField = (field) => {
     const validityState = field.validity;
     let message = '';
 
-    // Rendre valide le message et la présentation du champ 
+    // Rendre valide la présentation container formData
     resetValidation(field);
 
     if (!validityState.valid) { 
@@ -121,24 +121,29 @@ const validateField = (field) => {
 
 /*
     Fonction dédiée pour valider les champs du type
-    radio pour les tournois
+    radio des emplacements de tournois : un radio doit être sélectionné
 */
   const validateRadio = (radios) => {
-    // Obtenir un tableau d'un élément contenant la valeur du radio choisi
+    // Obtenir un tableau avec un seul élément contenant la valeur du radio choisi
     const locationValue = Array.from(radios)
                        .filter(r => r.checked)
                        .map(r => r.value);
     // Tester l'existence de la valeur sélectionnée
     if (locationValue !== undefined && locationValue.length > 0 && locationValue[0] !== '') 
     {
-        console.log("=======");
-        console.log(`Radio: ${locationValue[0]}`);
+        // Récupérer le premier radio du groupe: un radio a été séléctionné par l'utilisateur
+        const field = radios[0];
+        // Rendre valide la présentation container formData
+        resetValidation(field);
         return true;
     }
     else
     {
-       console.log("=======");
-       console.log("Radio ko");
+      // Récupérer le premier radio du groupe: aucun radio n'est sélectionné par l'utilisateur,
+      const field = radios[0];
+      let message = messages[field.name];
+      // Marquer le container formData en erreur
+      updateMessageValidation(field, message)
        return false;
     }
   }
@@ -177,7 +182,7 @@ const resetValidation = (field) => {
     // Faire disparaitre la bordure rouge sur le champ du formulaire
     formData.setAttribute('data-error-visible', false);
 
-    // Effacer un éventuel message d'erreur précédent
+    // Effacer un éventuel message d'erreur précédent pour les champs concernés
     switch(field.type)
     {
         case "text":
@@ -185,6 +190,10 @@ const resetValidation = (field) => {
         case "number":
         case "date":
             field.setCustomValidity('');
+            break;
+        case "radio":
+        case "checkbox":
+        default:
             break;
     }
 }
@@ -200,8 +209,6 @@ const updateMessageValidation = (field, message) => {
     if (!formData.classList.contains('formData')) {
         return;
     }
-    
-    field.setCustomValidity(message);
 
     switch(field.type)
     {
@@ -211,10 +218,14 @@ const updateMessageValidation = (field, message) => {
         case "date":
             formData.setAttribute('data-error', message);
             formData.setAttribute('data-error-visible', true);
+            field.setCustomValidity(message);
             break;
-
+        case "radio":
+            formData.setAttribute('data-error', message);
+            formData.setAttribute('data-error-visible', true);
+            break;
         default:
-            console.log(`updateMessageValidation default: ${field.type} `)
+            console.log(`updateMessageValidation default case: ${field.type} `)
             break;
     }
 }

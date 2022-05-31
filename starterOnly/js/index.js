@@ -11,5 +11,5 @@ document.getElementById("cross-closing-inscription").addEventListener("click", m
 // Récupérer le bouton d'envoi du formulaire "C'est parti" pour ajouter une fonction qui se déclenche sur l'évènement clic
 document.querySelector('form[name="reserve"] input[type="submit"]').addEventListener("click", function(e){f.checkValidity(e);});
 
-// Régler la borne max value du calendrier pous saisir la date de naissance à aujourd'hui
+// Régler la borne max value du calendrier à aujourd'hui pour saisir la date de naissance 
 document.getElementById("birthdate").setAttribute("max", new Date().toISOString().split('T')[0]);
