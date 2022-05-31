@@ -211,7 +211,7 @@ input {
 /*  Monter les erreurs de validation >>> */
 .formData[data-error]::after {
   content: attr(data-error);
-  font-size: 0.4em;
+  font-size: 0.5em;
   color: #e54858;
   display: block;
   margin-top: 7px;
@@ -236,7 +236,7 @@ input {
 input[data-error]::after {
     content: attr(data-error);
     font-size: 0.4em;
-    color: #e54858;
+    color: red;
 } 
 /* <<<  Monter les erreurs de validation */
 .checkbox-label,

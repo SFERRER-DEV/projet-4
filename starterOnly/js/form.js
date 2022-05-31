@@ -10,7 +10,10 @@ const messages = {"first":"Votre prénom doit avoir un minimum de 2 caractères 
                   "location":"Vous devez choisir une option le tournoi auquel participer.",
                   "accept1":"Vous devez vérifier que vous acceptez les termes et les conditions d'utilisation.",
                   "accept2":""};
-
+/*
+    Fonction principale pour la logique
+    de validation du formulaire
+*/
 export function checkValidity(e) {
     // Flag de test pour les contraintes de validation
     let valid = true;    
@@ -66,7 +69,7 @@ export function checkValidity(e) {
 }
 
 /*
-    Fonction pour valider les champs des types 
+    Fonction dédiée pour valider les champs des types 
     text, email, number et date
 */
 const validateField = (field) => {
@@ -81,14 +84,15 @@ const validateField = (field) => {
       message = messages[field.name];
       // Marquer le container formData en erreur
       updateMessageValidation(field, message)
+      return false;
     }
 
-    // Montrer le message d'erreur de validation du champ
-    return field.reportValidity();
+    return true;
   }
 
  /*
-
+    Fonction dédiée pour valider la date de naissance
+    Elle reçoit deux messages d'erreurs différents
  */
  const validateBirth = (field) => {
     const validityState = field.validity;
@@ -107,16 +111,16 @@ const validateField = (field) => {
     }
 
     if (message !== '') { 
-        // Marquer le container formData en erreur
+        // Marquer le conteneur formData en erreur
         updateMessageValidation(field, message)
-      }
+        return false;
+    }
 
-    // Montrer le message d'erreur de validation du champ
-    return field.reportValidity();
+    return true;
 }
 
 /*
-    Fonction pour valider les champs du type
+    Fonction dédiée pour valider les champs du type
     radio pour les tournois
 */
   const validateRadio = (radios) => {
@@ -138,8 +142,9 @@ const validateField = (field) => {
        return false;
     }
   }
+
   /*
-    Fonction pour valider le champ du type 
+    Fonction dédiée pour valider le champ du type 
     checkbox pour les conditions
   */
  const validateCheck =(check) => {
@@ -157,10 +162,9 @@ const validateField = (field) => {
      }
  }
 
-
-
 /*
-
+  Fonction pour Remettre à Zéro un champ
+  avant sa validation
 */
 const resetValidation = (field) => {
     // Récupérer le noeud parent du champ passé à la fonction
@@ -184,12 +188,14 @@ const resetValidation = (field) => {
             break;
     }
 }
-/*
 
+/*
+  Fonction pour afficher les indications après la
+  validation d'un champ 
 */
 const updateMessageValidation = (field, message) => {
     // Récupérer le noeud parent du champ passé à la fonction
-    const formData = field.parentNode;
+    let formData = field.parentNode;
     // Vérifier que ce noeud parent correspond bien au div conteneur formData
     if (!formData.classList.contains('formData')) {
         return;
@@ -203,13 +209,12 @@ const updateMessageValidation = (field, message) => {
         case "email":
         case "number":
         case "date":
+            formData.setAttribute('data-error', message);
             formData.setAttribute('data-error-visible', true);
             break;
 
         default:
-            formData.setAttribute('data-error-visible', true);
+            console.log(`updateMessageValidation default: ${field.type} `)
             break;
     }
-
-    console.log(`formData: ${message}`);
 }
