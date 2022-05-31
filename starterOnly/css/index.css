@@ -208,6 +208,7 @@ input {
   font-size: 20px;
   height: 48px;
 }
+/*  Monter les erreurs de validation >>> */
 .formData[data-error]::after {
   content: attr(data-error);
   font-size: 0.4em;
@@ -226,12 +227,18 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-/* 
+.formData[data-error-visible="false"]::after {
+  opacity: 0;
+}
+.formData[data-error-visible="false"] .text-control {
+  border: none;
+}
 input[data-error]::after {
     content: attr(data-error);
     font-size: 0.4em;
-    color: red;
-} */
+    color: #e54858;
+} 
+/* <<<  Monter les erreurs de validation */
 .checkbox-label,
 .checkbox2-label {
   position: relative;

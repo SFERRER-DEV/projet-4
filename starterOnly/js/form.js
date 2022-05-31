@@ -20,8 +20,6 @@ export function checkValidity(e) {
     const radios = document.getElementsByName('location');
     // Récupérer la case à cocher d'acceptation des conditions
     const accept = document.querySelector('#checkbox1');
-    // Récuper la date d'anniversaire
-    //const birth = document.querySelector('#birthdate');
 
     // Parcourir les champs input du formulaire
     for(let input of fields){
@@ -45,19 +43,23 @@ export function checkValidity(e) {
         }
     }
 
+    // Si la validation est déjà en échec alors les autres champs ne seront pas testés
     if(valid){
         // Si les une fonction n'est pas valide alors arrêter la validation et sinon continuer pour valider la suivante
         valid &= (validateRadio(radios) && validateCheck(accept));
-    }
 
-    // Vérifier que l'intégralité des champs sont valides
-    if(valid){
-        console.log("=======");
-        console.log("Form validation ok");
-        alert("Le formulaire est valide.");
+        // Vérifier que l'intégralité des champs sont valides
+        if(valid){
+            alert("Le formulaire est valide.");
+        } else {
+            console.log("=======");
+            console.log("Form validation 2 ko");
+            // Rester sur le formulaire en erreur
+            e.preventDefault();
+        }
     } else {
         console.log("=======");
-        console.log("Form validation ko");
+        console.log("Form validation 1 ko");
         // Rester sur le formulaire en erreur
         e.preventDefault();
     }
@@ -69,21 +71,50 @@ export function checkValidity(e) {
 */
 const validateField = (field) => {
     const validityState = field.validity;
-    // Rendre valide le message du champ
-    field.setCustomValidity('')
-    if (validityState.valueMissing) {
-      field.setCustomValidity('Ce champ est obligatoire, vous devez le renseigner.');
-      console.log("=======");
-      console.log((`Echec value missing: ${field.name}`))
-    } else if (!validityState.valid) { 
-        // Une contrainte de validation du champ est en échec, préparer son message spécifique d'erreur
-        field.setCustomValidity(messages[field.name]);
-        console.log("=======");
-        console.log((`Echec validation: ${field.name}`))
+    let message = '';
+
+    // Rendre valide le message et la présentation du champ 
+    resetValidation(field);
+
+    if (!validityState.valid) { 
+      // Une contrainte de validation du champ est en échec, préparer son message spécifique d'erreur
+      message = messages[field.name];
+      // Marquer le container formData en erreur
+      updateMessageValidation(field, message)
     }
+
     // Montrer le message d'erreur de validation du champ
     return field.reportValidity();
   }
+
+ /*
+
+ */
+ const validateBirth = (field) => {
+    const validityState = field.validity;
+    let message = '';
+
+    // Rendre valide le message et la présentation du champ 
+    resetValidation(field);
+
+    if (validityState.rangeOverflow | validityState.rangeUnderflow ) {
+    // La date saisie est inférieure ou supérieure aux bornes min et max.
+        message = "La date saisie n'est pas valide";
+    } 
+    else if (!validityState.valid) { 
+    // Une contrainte de validation du champ est en échec, préparer son message spécifique d'erreur
+        message = messages[field.name];
+    }
+
+    if (message !== '') { 
+        // Marquer le container formData en erreur
+        updateMessageValidation(field, message)
+      }
+
+    // Montrer le message d'erreur de validation du champ
+    return field.reportValidity();
+}
+
 /*
     Fonction pour valider les champs du type
     radio pour les tournois
@@ -126,26 +157,59 @@ const validateField = (field) => {
      }
  }
 
- /*
 
- */
-const validateBirth = (field) => {
-    const validityState = field.validity;
-     // Rendre valide le message du champ
-     field.setCustomValidity('')
-    if (validityState.rangeOverflow | validityState.rangeUnderflow ) {
-    // La date saisie est inférieure ou supérieure aux bornes min et max.
-        field.setCustomValidity(`La date saisie n'est pas valide`);
-        console.log("=======");
-        console.log(`Echec validation: ${field.name} ${field.value}`);
-    } 
-    else if (!validityState.valid) { 
-    // Une contrainte de validation du champ est en échec, préparer son message spécifique d'erreur
-        field.setCustomValidity(messages[field.name]);
-        console.log("=======");
-        console.log((`Echec validation: ${field.name}`))
+
+/*
+
+*/
+const resetValidation = (field) => {
+    // Récupérer le noeud parent du champ passé à la fonction
+    const formData = field.parentNode;
+    // Vérifier que ce noeud parent correspond bien au div conteneur formData
+    if (!formData.classList.contains('formData')) {
+        return;
     }
 
-    // Montrer le message d'erreur de validation du champ
-    return field.reportValidity();
+    // Faire disparaitre la bordure rouge sur le champ du formulaire
+    formData.setAttribute('data-error-visible', false);
+
+    // Effacer un éventuel message d'erreur précédent
+    switch(field.type)
+    {
+        case "text":
+        case "email":
+        case "number":
+        case "date":
+            field.setCustomValidity('');
+            break;
+    }
+}
+/*
+
+*/
+const updateMessageValidation = (field, message) => {
+    // Récupérer le noeud parent du champ passé à la fonction
+    const formData = field.parentNode;
+    // Vérifier que ce noeud parent correspond bien au div conteneur formData
+    if (!formData.classList.contains('formData')) {
+        return;
+    }
+    
+    field.setCustomValidity(message);
+
+    switch(field.type)
+    {
+        case "text":
+        case "email":
+        case "number":
+        case "date":
+            formData.setAttribute('data-error-visible', true);
+            break;
+
+        default:
+            formData.setAttribute('data-error-visible', true);
+            break;
+    }
+
+    console.log(`formData: ${message}`);
 }
