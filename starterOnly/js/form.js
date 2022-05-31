@@ -55,14 +55,10 @@ export function checkValidity(e) {
         if(valid){
             alert("Le formulaire est valide.");
         } else {
-            console.log("=======");
-            console.log("Form validation 2 ko");
             // Rester sur le formulaire en erreur
             e.preventDefault();
         }
     } else {
-        console.log("=======");
-        console.log("Form validation 1 ko");
         // Rester sur le formulaire en erreur
         e.preventDefault();
     }
@@ -144,7 +140,7 @@ const validateField = (field) => {
       let message = messages[field.name];
       // Marquer le container formData en erreur
       updateMessageValidation(field, message)
-       return false;
+      return false;
     }
   }
 
@@ -152,17 +148,20 @@ const validateField = (field) => {
     Fonction dédiée pour valider le champ du type 
     checkbox pour les conditions
   */
- const validateCheck =(check) => {
-     if(check.checked === true)
+ const validateCheck =(field) => {
+    let message = '';
+     if(field.checked === true)
      {
-        console.log("=======");
-        console.log(`Checkbox: ${check.checked}`);
+         // Rendre valide la présentation container formData
+        resetValidation(field);
         return true;
      }
      else 
      {
-        console.log("=======");
-        console.log("Checkbox ko");
+        // La case n'est pas cochées, préparer son message spécifique d'erreur
+        message = messages[field.name];
+        // Marquer le container formData en erreur
+        updateMessageValidation(field, message)
         return false;
      }
  }
@@ -221,6 +220,7 @@ const updateMessageValidation = (field, message) => {
             field.setCustomValidity(message);
             break;
         case "radio":
+        case "checkbox":
             formData.setAttribute('data-error', message);
             formData.setAttribute('data-error-visible', true);
             break;
