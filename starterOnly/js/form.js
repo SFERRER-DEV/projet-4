@@ -1,19 +1,22 @@
 import * as func from "./functions.js";
+import * as m from "./modal.js";
 /**
  * Gère les intéractions du formulaire d'inscription
+ * 
  * - checkValidity(e)
+ * - createFormConfirmation()
+ * 
  */
 
 /*
-    Fonction principale contenant la logique de validation du formulaire
+  Fonction principale contenant la logique de validation du formulaire
 */
 export function checkValidity(e) {
     // Flag de résutlat pour les fonctions de validation des contraintes de champ
     let valid = true;
+
     // Récupérer un ensemble d'élements du formulaire à valider
     const fields = document.querySelectorAll('.formData input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="checkbox"], input[type="radio"]');
-    // Récupérer les autres éléments c'est à dire les radios pour les emplacements de tournois
-    const radios = document.getElementsByName('location');
 
     // Parcourir les champs input du formulaire
     for(let input of fields){
@@ -50,9 +53,55 @@ export function checkValidity(e) {
 
     // Vérifier que l'intégralité des champs sont valides
     if(valid){
-        alert("Le formulaire est valide.");
+        createFormConfirmation();
     } else {
         // Rester sur le formulaire en erreur
         e.preventDefault();
     }
+}
+
+/*
+    Créer et afficher le formulaire de confirmation
+    en modifiant le DOM du formulaire validé
+*/
+function createFormConfirmation() {
+    // Obtenir le fragment correspondant au formulaire validé
+    const formReserve = document.querySelector("form[name='reserve']");
+    // Mémoriser la hauteur intérieure du formulaire validé
+    const height = formReserve.clientHeight;
+    // Récupérer les éléments champs, le texte et le bouton dans une collection
+    const formItems = formReserve.querySelectorAll(".formData, .text-label, .btn-submit");
+    // Parcourir la collection et supprimer ces éléments pour vider le formulaire validé
+    formItems.forEach(item => item.remove());
+    // Redimensionner le formulaire vidé
+    formReserve.style.height = `${height}px`;
+    // Le formulaire pour afficher la confirmation est flexible
+    formReserve.style.display = 'flex';
+    formReserve.style.flexDirection = 'column';
+    formReserve.style.justfyContent = 'space-between';
+    formReserve.style.alignItems = 'center';
+    // Préparer 1er paragraphe: Merci pour
+    let firstPargraph = document.createElement('p');
+    firstPargraph.style.flexGrow = '1';
+    firstPargraph.style.width = '100%';
+    firstPargraph.style.display = 'flex';
+    firstPargraph.style.justifyContent = 'center';
+    firstPargraph.style.alignItems = 'flex-end';
+    firstPargraph.appendChild(document.createTextNode('Merci pour'));
+    formReserve.appendChild(firstPargraph);
+    // Préparer 2nd paragraphe: votre inscription
+    let secondParagraph = document.createElement('p');
+    secondParagraph.style.flexGrow = '1';
+    secondParagraph.style.width = '100%';
+    secondParagraph.style.display = 'flex';
+    secondParagraph.style.justifyContent = 'center';
+    secondParagraph.appendChild(document.createTextNode('votre inscription'));
+    formReserve.appendChild(secondParagraph);
+    // Préparer le bouton: fermer
+    const close = document.createElement('button');
+    close.classList.add('btn-submit');
+    close.classList.add('button');
+    close.innerText = 'fermer';
+    close.addEventListener("click", m.hideModal);
+    formReserve.appendChild(close);
 }

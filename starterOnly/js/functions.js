@@ -1,16 +1,19 @@
 import * as mess from "./messages.js";
-import * as util from "./util.js";
-/*
- * Fonctions spécifiques dédiées à valider des champs de formulaire
- * suivant le type du champ.
+/**
+ * Fonctions utilitaires pour valider et présenter les champs de formulaire
+ * 
  * - validateField(field)
+ * - resetValidation(field)
+ * - updateMessageValidation(field)
+ * 
  */
+
 /*
-    Fonction dédiée pour valider les champs des types 
-    text, email, number, date, checkbox et radio
-    Des messages d'erreurs différents sont affichés :
-    - Un message spécifique exsitant dans le tableau des messages pour le nom de ce champ
-    - Ou un des messages génériques depuis l'API Validation
+    Fonction spécifique dédiée à valider des champs de formulaire 
+    suivant les types text, email, number, date, checkbox et radio
+    Cette fontion affiche des messages différents  en cas d'erreur de validation :
+    - Un message spécifique exsitant dans le tableau des messages pour le nom de ce champ input
+    - Ou alors un des messages génériques obtenus depuis l'API Validation
 */
 export const validateField = (field) => {
     const validityState = field.validity;
@@ -38,9 +41,9 @@ export const validateField = (field) => {
     }
   }
 
-  /*
-  Fonction utlitaire pour Remettre à Zéro un champ
-  et sa présentation au début d'une validation
+/*
+  Fonction utile pour remettre à zéro un champ
+  et sa présentation au début d'une validation (RAZ)
 */
 const resetValidation = (field) => {
     // Récupérer le noeud parent du champ passé à la fonction
@@ -58,7 +61,7 @@ const resetValidation = (field) => {
 }
 
 /*
-  Fonction utilitaire pour afficher les indications après la
+  Fonction utile pour afficher les indications après la
   validation d'un champ 
 */
 const updateMessageValidation = (field, message) => {

@@ -1,6 +1,8 @@
 /*
  * Tableau des messages d'indication de validation des champs du formulaire
- * La proriété name du tableau a les valeurs de la propriété name des champs du formulaire
+ * La propriété name du tableau a les mêmes valeurs que la propriété name des champs du formulaire
+ * 
+ * - findMessage(field)
  */
 const messages = [
                     {name: "first", message: "Votre prénom doit avoir un minimum de 2 caractères."},
