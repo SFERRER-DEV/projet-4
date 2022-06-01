@@ -8,11 +8,11 @@ import * as func from "./functions.js";
     Fonction principale contenant la logique de validation du formulaire
 */
 export function checkValidity(e) {
-    // Flag de test pour les contraintes de validation
-    let valid = true;    
-    // Récupérer un premier ensemble d'élements du formulaire à valider
-    const fields = document.querySelectorAll('.formData input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="checkbox"]');
-    // Récupérer les éléments radio pour les emplacements des tournois
+    // Flag de résutlat pour les fonctions de validation des contraintes de champ
+    let valid = true;
+    // Récupérer un ensemble d'élements du formulaire à valider
+    const fields = document.querySelectorAll('.formData input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="checkbox"], input[type="radio"]');
+    // Récupérer les autres éléments c'est à dire les radios pour les emplacements de tournois
     const radios = document.getElementsByName('location');
 
     // Parcourir les champs input du formulaire
@@ -25,28 +25,32 @@ export function checkValidity(e) {
             case "number":
             case "date":
             case "checkbox":
-            default:
                 valid &= func.validateField(input);
+                break;
+            case "radio":
+                // Rechercher si il existe un radio avant le radio courant et avant le label de cet éventuel prédécesseur
+                let previousRadio = (input.previousElementSibling && input.previousElementSibling.previousElementSibling);
+                if (previousRadio === null)
+                {
+                    // Il n'est utile de ne tester qu'un radio du groupe de radios
+                    // Comme ce radio n'a pas de prédecésseur, c'est uniquement le 1er radio du groupe qui est toujours testé
+                    valid &= func.validateField(input);
+                }
+                break;
+            default:
+                console.log(`Input ${input.type} not testing: ${input.name}`);
         }
 
+        // Si les une fonction dédiée n'a pas validé les contraintes d'un champ alors ...
         if(!valid){
-            // Si une contrainte d'un champ n'est pas valide, arrêter la vérification
+            // ...  arrêter toute la validation
             break;
         }
     }
 
-    // Si la validation est déjà en échec alors les autres champs ne seront pas testés
+    // Vérifier que l'intégralité des champs sont valides
     if(valid){
-        // Si les une fonction n'est pas valide alors arrêter la validation et sinon continuer pour valider la suivante
-        valid &= func.validateRadio(radios);
-
-        // Vérifier que l'intégralité des champs sont valides
-        if(valid){
-            alert("Le formulaire est valide.");
-        } else {
-            // Rester sur le formulaire en erreur
-            e.preventDefault();
-        }
+        alert("Le formulaire est valide.");
     } else {
         // Rester sur le formulaire en erreur
         e.preventDefault();
