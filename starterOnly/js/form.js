@@ -1,15 +1,8 @@
+import * as mess from "./messages.js";
 /**
  * Gère les intéractions du formulaire d'inscription 
  */
-// (key, value) => (input.name, message)
-const messages = {"first":"Votre prénom doit avoir un minimum de 2 caractères.",
-                  "last":"Votre nom doit avoir un minimum de 2 caractères.",
-                  "email":"Votre adresse électronique doit être valide.",
-                  "birthdate":"Vous devez entrer votre date de naissance.",
-                  "quantity":"Vous devez saisir le nombre de concours participés ou aucun.",
-                  "location":"Vous devez choisir une option pour un tournoi.",
-                  "accept1":"Vous devez vérifier que vous acceptez les termes et les conditions.",
-                  "accept2":""};
+
 /*
     Fonction principale pour la logique
     de validation du formulaire
@@ -77,7 +70,7 @@ const validateField = (field) => {
 
     if (!validityState.valid) { 
       // Une contrainte de validation du champ est en échec, préparer son message spécifique d'erreur
-      message = messages[field.name];
+      message = mess.messages[field.name];
       // Marquer le container formData en erreur
       updateMessageValidation(field, message)
       return false;
@@ -88,7 +81,9 @@ const validateField = (field) => {
 
  /*
     Fonction dédiée pour valider la date de naissance
-    Elle reçoit deux messages d'erreurs différents
+    Des messages d'erreurs différents sont affichés :
+    - un message depuis le tableau des messages spécifiques au formulaire
+    - des mesassges génériques depuis l'API Validation
  */
  const validateBirth = (field) => {
     const validityState = field.validity;
@@ -98,12 +93,12 @@ const validateField = (field) => {
     resetValidation(field);
 
     if (validityState.rangeOverflow | validityState.rangeUnderflow ) {
-    // La date saisie est inférieure ou supérieure aux bornes min et max.
-        message = "La date saisie n'est pas valide";
+    // La date dépasse les bornes min et max, utiliser le message générique de l'API Validation
+        message =  field.validationMessage;
     } 
     else if (!validityState.valid) { 
     // Une contrainte de validation du champ est en échec, préparer son message spécifique d'erreur
-        message = messages[field.name];
+        message = mess.messages[field.name];
     }
 
     if (message !== '') { 
@@ -137,7 +132,7 @@ const validateField = (field) => {
     {
       // Récupérer le premier radio du groupe: aucun radio n'est sélectionné par l'utilisateur,
       const field = radios[0];
-      let message = messages[field.name];
+      let message = mess.messages[field.name];
       // Marquer le container formData en erreur
       updateMessageValidation(field, message)
       return false;
@@ -159,7 +154,7 @@ const validateField = (field) => {
      else 
      {
         // La case n'est pas cochées, préparer son message spécifique d'erreur
-        message = messages[field.name];
+        message = mess.messages[field.name];
         // Marquer le container formData en erreur
         updateMessageValidation(field, message)
         return false;
