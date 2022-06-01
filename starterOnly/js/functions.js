@@ -17,15 +17,16 @@ export const validateField = (field) => {
     const validityState = field.validity;
     let message = '';
 
-    // Rendre valide la présentation container formData
+    // Rendre valide la présentation du conteneur formData
     util.resetValidation(field);
 
     if ((field.type === 'date' | field.type === 'number') && (validityState.rangeUnderflow | validityState.rangeOverflow)) {
-      // La valeur dépasse les bornes min et max pour les dates et les nombres, utiliser un message générique de l'API Validation
+      // La valeur dépasse les bornes min et max pour les dates et les nombres, 
+      // utiliser un message générique de l'API Validation
       message =  field.validationMessage;
     } else if (!validityState.valid) { 
-      // Une contrainte de validation du champ est en échec, préparer son message spécifique d'erreur
-      message = mess.messages[field.name];
+      // Une contrainte de validation du champ est en échec alors obtenir un message de validation
+      message = mess.findMessage(field);
     }
 
     if (message !== '') 
@@ -59,9 +60,9 @@ export const validateRadio = (radios) => {
     }
     else
     {
-      // Obtenir le  message spécifique d'erreur
-      message = mess.messages[field.name];
-      // Marquer le container formData en erreur
+      // Une contrainte de validation du champ est en échec alors obtenir un message de validation
+      message = mess.findMessage(field);
+      // Marquer le conteneur formData en erreur
       util.updateMessageValidation(field, message)
       return false;
     }

@@ -1,15 +1,33 @@
 /*
  * Tableau des messages d'indication de validation des champs du formulaire
- * Les clés du tableau ont les valeurs de la propriété name des champs du formulaire
+ * La proriété name du tableau a les valeurs de la propriété name des champs du formulaire
  */
-// (key, value) => (input.name, message)
-export const messages = {"first":"Votre prénom doit avoir un minimum de 2 caractères.",
-                         "last":"Votre nom doit avoir un minimum de 2 caractères.",
-                         "email":"Votre adresse électronique doit être valide.",
-                         "birthdate":"Vous devez entrer votre date de naissance.",
-                         "quantity":"Vous devez saisir le nombre de concours participés ou aucun.",
-                         "location":"Vous devez choisir une option pour un tournoi.",
-                         "accept1":"Vous devez vérifier que vous acceptez les termes et les conditions.",
-                         "accept2":""};
+const messages = [
+                    {name: "first", message: "Votre prénom doit avoir un minimum de 2 caractères."},
+                    {name: "last", message: "Votre nom doit avoir un minimum de 2 caractères."},
+                    {name: "email", message: "Votre adresse électronique doit être valide."},
+                    {name: "birthdate", message: "Vous devez entrer votre date de naissance."},
+                    {name: "quantity", message: "Vous devez saisir le nombre de concours participés ou aucun."},
+                    {name: "location", message: "Vous devez choisir une option pour un tournoi."},
+                    {name: "accept1", message: "Vous devez vérifier que vous acceptez les termes et les conditions."}
+                 ];
 
-                        
+
+/* 
+   Rechercher et trouver un message spécifique dans le tableau
+   ou sinon le remplacer par un message générique de l'APi
+*/
+export const findMessage =(field) => {
+        let message = '';
+        // Chercher si le message spécifique d'erreur existe pour un champ
+        let found = messages.find(elt => elt.name === field.name);
+        if (found !== undefined)
+        {
+            // Utiliser un message spécifique 
+            message = found.message;
+        } else {
+            // Utiliser un message générique
+            message =  field.validationMessage;
+        }
+        return message;
+}
