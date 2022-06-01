@@ -1,11 +1,11 @@
-import * as mess from "./messages.js";
+import * as func from "./functions.js";
 /**
- * Gère les intéractions du formulaire d'inscription 
+ * Gère les intéractions du formulaire d'inscription
+ * - checkValidity(e)
  */
 
 /*
-    Fonction principale pour la logique
-    de validation du formulaire
+    Fonction principale contenant la logique de validation du formulaire
 */
 export function checkValidity(e) {
     // Flag de test pour les contraintes de validation
@@ -23,14 +23,14 @@ export function checkValidity(e) {
         switch(input.type)
         {
             case "date":
-                valid &= validateBirth(input)
+                valid &= func.validateBirth(input)
                 break;
 
             case "text":
             case "email":
             case "number":
             default:
-                valid &= validateField(input);
+                valid &= func.validateField(input);
         }
 
         if(!valid){
@@ -42,7 +42,7 @@ export function checkValidity(e) {
     // Si la validation est déjà en échec alors les autres champs ne seront pas testés
     if(valid){
         // Si les une fonction n'est pas valide alors arrêter la validation et sinon continuer pour valider la suivante
-        valid &= (validateRadio(radios) && validateCheck(accept));
+        valid &= (func.validateRadio(radios) && func.validateCheck(accept));
 
         // Vérifier que l'intégralité des champs sont valides
         if(valid){
@@ -54,173 +54,5 @@ export function checkValidity(e) {
     } else {
         // Rester sur le formulaire en erreur
         e.preventDefault();
-    }
-}
-
-/*
-    Fonction dédiée pour valider les champs des types 
-    text, email, number et date
-*/
-const validateField = (field) => {
-    const validityState = field.validity;
-    let message = '';
-
-    // Rendre valide la présentation container formData
-    resetValidation(field);
-
-    if (!validityState.valid) { 
-      // Une contrainte de validation du champ est en échec, préparer son message spécifique d'erreur
-      message = mess.messages[field.name];
-      // Marquer le container formData en erreur
-      updateMessageValidation(field, message)
-      return false;
-    }
-
-    return true;
-  }
-
- /*
-    Fonction dédiée pour valider la date de naissance
-    Des messages d'erreurs différents sont affichés :
-    - un message depuis le tableau des messages spécifiques au formulaire
-    - des mesassges génériques depuis l'API Validation
- */
- const validateBirth = (field) => {
-    const validityState = field.validity;
-    let message = '';
-
-    // Rendre valide le message et la présentation du champ 
-    resetValidation(field);
-
-    if (validityState.rangeOverflow | validityState.rangeUnderflow ) {
-    // La date dépasse les bornes min et max, utiliser le message générique de l'API Validation
-        message =  field.validationMessage;
-    } 
-    else if (!validityState.valid) { 
-    // Une contrainte de validation du champ est en échec, préparer son message spécifique d'erreur
-        message = mess.messages[field.name];
-    }
-
-    if (message !== '') { 
-        // Marquer le conteneur formData en erreur
-        updateMessageValidation(field, message)
-        return false;
-    }
-
-    return true;
-}
-
-/*
-    Fonction dédiée pour valider les champs du type
-    radio des emplacements de tournois : un radio doit être sélectionné
-*/
-  const validateRadio = (radios) => {
-    // Obtenir un tableau avec un seul élément contenant la valeur du radio choisi
-    const locationValue = Array.from(radios)
-                       .filter(r => r.checked)
-                       .map(r => r.value);
-    // Tester l'existence de la valeur sélectionnée
-    if (locationValue !== undefined && locationValue.length > 0 && locationValue[0] !== '') 
-    {
-        // Récupérer le premier radio du groupe: un radio a été séléctionné par l'utilisateur
-        const field = radios[0];
-        // Rendre valide la présentation container formData
-        resetValidation(field);
-        return true;
-    }
-    else
-    {
-      // Récupérer le premier radio du groupe: aucun radio n'est sélectionné par l'utilisateur,
-      const field = radios[0];
-      let message = mess.messages[field.name];
-      // Marquer le container formData en erreur
-      updateMessageValidation(field, message)
-      return false;
-    }
-  }
-
-  /*
-    Fonction dédiée pour valider le champ du type 
-    checkbox pour les conditions
-  */
- const validateCheck =(field) => {
-    let message = '';
-     if(field.checked === true)
-     {
-         // Rendre valide la présentation container formData
-        resetValidation(field);
-        return true;
-     }
-     else 
-     {
-        // La case n'est pas cochées, préparer son message spécifique d'erreur
-        message = mess.messages[field.name];
-        // Marquer le container formData en erreur
-        updateMessageValidation(field, message)
-        return false;
-     }
- }
-
-/*
-  Fonction pour Remettre à Zéro un champ
-  avant sa validation
-*/
-const resetValidation = (field) => {
-    // Récupérer le noeud parent du champ passé à la fonction
-    const formData = field.parentNode;
-    // Vérifier que ce noeud parent correspond bien au div conteneur formData
-    if (!formData.classList.contains('formData')) {
-        return;
-    }
-
-    // Faire disparaitre la bordure rouge sur le champ du formulaire
-    formData.setAttribute('data-error-visible', false);
-
-    // Effacer un éventuel message d'erreur précédent pour les champs concernés
-    switch(field.type)
-    {
-        case "text":
-        case "email":
-        case "number":
-        case "date":
-            field.setCustomValidity('');
-            break;
-        case "radio":
-        case "checkbox":
-        default:
-            break;
-    }
-}
-
-/*
-  Fonction pour afficher les indications après la
-  validation d'un champ 
-*/
-const updateMessageValidation = (field, message) => {
-    // Récupérer le noeud parent du champ passé à la fonction
-    let formData = field.parentNode;
-    // Vérifier que ce noeud parent correspond bien au div conteneur formData
-    if (!formData.classList.contains('formData')) {
-        return;
-    }
-
-    switch(field.type)
-    {
-        case "text":
-        case "email":
-        case "number":
-        case "date":
-            formData.setAttribute('data-error', message);
-            formData.setAttribute('data-error-visible', true);
-            field.setCustomValidity(message);
-            break;
-        case "radio":
-        case "checkbox":
-            formData.setAttribute('data-error', message);
-            formData.setAttribute('data-error-visible', true);
-            break;
-        default:
-            console.log(`updateMessageValidation default case: ${field.type} `)
-            break;
     }
 }
