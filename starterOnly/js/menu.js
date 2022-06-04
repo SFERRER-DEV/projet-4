@@ -1,8 +1,8 @@
-function editNav() {
-    var x = document.getElementById("myTopnav");
-    if (x.className === "topnav") {
-      x.className += " responsive";
-    } else {
-      x.className = "topnav";
-    }
+/**
+ * Gérer l'affichage du menu du site pour
+ * l'affichage responsive des devices mobiles
+ */
+export function editNav(e) {
+    let x = document.getElementById("myTopnav");
+    x.classList.toggle("responsive");
   }

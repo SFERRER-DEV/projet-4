@@ -1,5 +1,5 @@
 import * as func from "./functions.js";
-import * as m from "./modal.js";
+import * as md from "./modal.js";
 /**
  * Gère les intéractions du formulaire d'inscription
  * 
@@ -16,7 +16,7 @@ export function checkValidity(e) {
     let valid = true;
     // Tableau pour stocker les valeurs des champs d'une inscription
     let arrInscription = new Array();
-
+    
     // Récupérer un ensemble d'élements du formulaire à valider
     const fields = document.querySelectorAll('.formData input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="checkbox"], input[type="radio"]');
 
@@ -45,7 +45,7 @@ export function checkValidity(e) {
                 break;
 
             case "radio":
-                // Rechercher si il existe un radio avant le radio courant et avant le label de cet éventuel prédécesseur
+                // Rechercher si il existe un radio prédécesseur avant le radio courant et avant le label 
                 let previousRadio = (input.previousElementSibling && input.previousElementSibling.previousElementSibling);
                 if (previousRadio === null)
                 {
@@ -87,22 +87,18 @@ export function checkValidity(e) {
     en modifiant le DOM du formulaire validé
 */
 function createFormConfirmation() {
-    // Obtenir le fragment correspondant au formulaire validé
-    const formReserve = document.querySelector("form[name='reserve']");
-    // Mémoriser la hauteur intérieure du formulaire validé
-    const height = formReserve.clientHeight;
     // Récupérer les éléments champs, le texte et le bouton dans une collection
-    const formItems = formReserve.querySelectorAll(".formData, .text-label, .btn-submit");
+    const formItems = md.formReserve.querySelectorAll(".formData, .text-label, .btn-submit");
     // 1) Parcourir la collection et supprimer ces éléments pour vider le formulaire validé
     formItems.forEach(item => item.remove());
-    // Redimensionner le formulaire vidé
-    formReserve.style.height = `${height}px`;
+    // Redimensionner le formulaire vidé avec la dimension mémorisée au moment de l'ouverture de la modale
+    md.formReserve.style.height = `${md.height}px`;
     // 2) Assembler le formulaire pour afficher la confirmation
     // Rendre flexible le formulaire
-    formReserve.style.display = 'flex';
-    formReserve.style.flexDirection = 'column';
-    formReserve.style.justfyContent = 'space-between';
-    formReserve.style.alignItems = 'center';
+    md.formReserve.style.display = 'flex';
+    md.formReserve.style.flexDirection = 'column';
+    md.formReserve.style.justfyContent = 'space-between';
+    md.formReserve.style.alignItems = 'center';
     // Préparer 1er paragraphe: Merci pour
     let firstPargraph = document.createElement('p');
     firstPargraph.style.flexGrow = '1';
@@ -112,7 +108,7 @@ function createFormConfirmation() {
     firstPargraph.style.alignItems = 'flex-end';
     firstPargraph.appendChild(document.createTextNode('Merci pour'));
     // Ajouter au DOM
-    formReserve.appendChild(firstPargraph);
+    md.formReserve.appendChild(firstPargraph);
     // Préparer 2nd paragraphe: votre inscription
     let secondParagraph = document.createElement('p');
     secondParagraph.style.flexGrow = '1';
@@ -121,13 +117,13 @@ function createFormConfirmation() {
     secondParagraph.style.justifyContent = 'center';
     secondParagraph.appendChild(document.createTextNode('votre inscription'));
     // Ajouter au DOM
-    formReserve.appendChild(secondParagraph);
+    md.formReserve.appendChild(secondParagraph);
     // Préparer le bouton: fermer
     const close = document.createElement('button');
     close.classList.add('btn-submit');
     close.classList.add('button');
     close.innerText = 'fermer';
-    close.addEventListener("click", m.hideModal);
+    close.addEventListener("click", md.hideModal);
     // Ajouter au DOM
-    formReserve.appendChild(close);
+    md.formReserve.appendChild(close);
 }
