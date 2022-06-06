@@ -14,7 +14,7 @@ export let arrInscription = new Array();
 /*
   Fonction principale contenant la logique de validation du formulaire
 */
-export function checkValidity(e) {
+export function checkValidity() {
     // Flag résutlat des fonctions de validation de contraintes de champ
     let valid = true;
     // Vider le tableau des valeurs et des champs mémorisés

@@ -34,7 +34,7 @@ document.querySelector('.main-navbar a.icon').addEventListener("click", mn.editN
 // Récupérer le bouton d'envoi du formulaire "C'est parti" pour ajouter une fonction qui se déclenche sur l'évènement clic
 document.querySelector('form[name="reserve"] input[type="submit"]').addEventListener("click", function(e){
     // Vérifier que l'intégralité des champs sont valides
-    const valid = fm.checkValidity(e);
+    const valid = fm.checkValidity();
     if(valid){
         // Ecrire sur la console toutes les valeurs mémorisées d'une inscription validée
         console.table(fm.arrInscription);
