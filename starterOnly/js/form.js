@@ -8,53 +8,47 @@ import * as md from "./modal.js";
  * 
  */
 
+// Récupérer un ensemble d'élements du formulaire à valider
+export const fields = document.querySelectorAll('.formData input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="checkbox"], input[type="radio"]');
+// Tableau pour stocker les valeurs des champs d'une inscription
+export let arrInscription = new Array();
+
 /*
   Fonction principale contenant la logique de validation du formulaire
 */
 export function checkValidity(e) {
     // Flag résutlat des fonctions de validation de contraintes de champ
     let valid = true;
-    // Tableau pour stocker les valeurs des champs d'une inscription
-    let arrInscription = new Array();
-    
-    // Récupérer un ensemble d'élements du formulaire à valider
-    const fields = document.querySelectorAll('.formData input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="checkbox"], input[type="radio"]');
+    // Vider le tableau des valeurs et des champs mémorisés
+    arrInscription.splice(0, arrInscription.length);
 
     // Parcourir les champs input du formulaire
     for(let input of fields){
         // Vérifier si les contraintes de chaque élément sont valides et afficher les messages de correction sur le navigateur.
         switch(input.type)
         {
+            case "radio":
+                // Rechercher si il existe un radio prédécesseur avant le radio courant et avant le label 
+                let previousRadio = (input.previousElementSibling && input.previousElementSibling.previousElementSibling);
+                if (previousRadio !== null) {
+                    break;
+                }
             case "text":
             case "email":
             case "number":
             case "date":
-                valid &= func.validateField(input);
-                if (valid) {
-                    // Mémoriser la valeur validée de ce champ
-                    arrInscription.push({name: input.name, value:input.value});
-                }
-                break;
-
             case "checkbox":
                 valid &= func.validateField(input);
                 if (valid) {
-                    // Mémoriser si cette case est cochée ou non
-                    arrInscription.push({name: input.name, value:input.checked});
-                }
-                break;
-
-            case "radio":
-                // Rechercher si il existe un radio prédécesseur avant le radio courant et avant le label 
-                let previousRadio = (input.previousElementSibling && input.previousElementSibling.previousElementSibling);
-                if (previousRadio === null)
-                {
-                    // Il n'est utile de ne tester qu'un radio du groupe de radios
-                    // Comme ce radio n'a pas de prédecésseur, c'est uniquement le 1er radio du groupe qui est toujours testé
-                    valid &= func.validateField(input);
-                    if (valid) {
-                        // Mémoriser le nom de la ville du tournoi choisi
-                        arrInscription.push({name: input.name, value:input.value});
+                    if(input.type === 'checkbox') {
+                        // Mémoriser si une case est cochée ou non
+                        arrInscription.push({name: input.name, value: input.checked});
+                    } else if(input.type === 'radio') { 
+                        // Mémoriser la valeur de la radio sélectionnée
+                        arrInscription.push({name: input.name, value: getTournament()});
+                    } else {
+                        // Mémoriser la valeur du champ
+                        arrInscription.push({name: input.name, value: input.value});
                     }
                 }
                 break;
@@ -72,13 +66,34 @@ export function checkValidity(e) {
 
     // Vérifier que l'intégralité des champs sont valides
     if(valid){
+        // Ecrire sur la console toutes les valeurs d'une inscription validée
+        console.table(arrInscription);
+        // Fermer le formulaire de confirmation
         createFormConfirmation();
-        // Ecrire sur la console toutes les valeurs d l'inscription validée
-        console.log("=== new inscription ===");
-        console.log(arrInscription);
     } else {
         // Rester sur le formulaire en erreur
         e.preventDefault();
+    }
+}
+
+/*
+    Obtenir la valeur du bouton radio sélectionné 
+    pour les tournois
+*/
+function getTournament() {
+    // Obtenir la collection des radios des tournois
+    const radios = document.getElementsByName('location');
+    // Obtenir un tableau avec un seul élément contenant la valeur du radio choisi
+    const tournament = Array.from(radios)
+                            .filter(r => r.checked)
+                            .map(r => r.value);
+    // Vérifier la valeur sélectionnée
+    if (tournament !== undefined && tournament.length > 0 && tournament[0] !== '') 
+    {
+        // Renvoyer la ville du tournoi sélectionné
+       return tournament[0];
+    } else {
+        return '';
     }
 }
 
@@ -132,8 +147,6 @@ function createFormConfirmation() {
     Cette fonction n'est pas utilisée, le DOM est rechargée à la place
 */
 function razForm() {
-    // Obtenir tous les champs input du formulaire
-    const fields = document.querySelectorAll('.formData input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="checkbox"], input[type="radio"]');
     // Parcourir tous les champs et effectuer un RAZ ou un RAB du champ
     for(let field of fields){
         if (field.type === "checkbox" | field.type === "radio") {
