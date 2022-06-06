@@ -13,7 +13,6 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-/*  background-image: url("background.png"); */
   font-family: var(--font-default);
   font-size: 18px;
   max-width: 1300px;
@@ -47,23 +46,19 @@ img {
   font-size: 20px;
   font-family: Roboto, sans-serif;
 }
-
 .topnav a:hover {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
 }
-
 .topnav a.active {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
 }
-
 .topnav .icon {
   display: none;
 }
-
 main {
   font-size: 130%;
   font-weight: bolder;
@@ -75,7 +70,6 @@ main {
   border-radius: 2rem;
   text-align: justify;
 }
-
 .modal-btn {
   font-size: 145%;
   background: #fe142f;
@@ -87,19 +81,15 @@ main {
   border-radius: 1rem;
   cursor: pointer;
 }
-
 .modal-btn:hover {
   background: #3876ac;
 }
-
 .footer {
   margin: 20px;
   padding: 10px;
   font-family: var(--font-slab);
 }
-
 /* Modal form */
-
 .button {
   background: #fe142f;
   margin-top: 0.5em;
@@ -109,15 +99,12 @@ main {
   cursor: pointer;
   font-size: 16px;
 }
-
 .button:hover {
   background: #3876ac;
 }
-
 .smFont {
   font-size: 16px;
 }
-
 .bground {
   display: none;
   position: fixed;
@@ -129,7 +116,6 @@ main {
   overflow: auto;
   background-color: rgba(26, 39, 156, 0.4);
 }
-
 .content {
   margin: 5% auto;
   width: 100%;
@@ -143,12 +129,10 @@ main {
   color: #fff;
   padding-top: 10px;
 }
-
 .modal-body {
   padding: 15px 8%;
   margin: 15px auto;
 }
-
 label {
   font-family: var(--font-default);
   font-size: 17px;
@@ -308,14 +292,12 @@ input[data-error]::after {
   font-size: 1.1rem;
   font-weight: normal;
 }
-
 .custom-select select {
   display: none;
 }
 .select-selected {
   background-color: #fff;
 }
-
 /* Style the arrow inside the select element: */
 .select-selected:after {
   position: absolute;
@@ -330,13 +312,11 @@ input[data-error]::after {
   transform: rotate(-48deg);
   border-radius: 5px 0 5px 0;
 }
-
 /* Point the arrow upwards when the select box is open (active): */
 .select-selected.select-arrow-active:after {
   transform: rotate(135deg);
   top: 13px;
 }
-
 .select-items div,
 .select-selected {
   color: #000;
@@ -347,7 +327,6 @@ input[data-error]::after {
   border-radius: 8px;
   height: 48px;
 }
-
 /* Style items (options): */
 .select-items {
   position: absolute;
@@ -357,12 +336,10 @@ input[data-error]::after {
   right: 0;
   z-index: 99;
 }
-
 /* Hide the items when the select box is closed: */
 .select-hide {
   display: none;
 }
-
 .select-items div:hover,
 .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
@@ -450,8 +427,8 @@ footer {
  * Gérer tous les sauts à la ligne dans le titre
  * pour les mobiles et les tablettes
  */
-@media  screen and (max-width: 985px),
-        screen and (orientation: portrait) and (max-device-width: 374px) {
+@media  screen and (min-width: 769px) and (max-width: 992px),
+        screen and (orientation: portrait) and (max-width: 374px) {
   /* Marathon: aller à la ligne: */ 
   .hero-headline span:first-of-type:after{
     content: "\A";
@@ -461,8 +438,8 @@ footer {
     content: "\A";
   }
 }
-@media screen and (orientation: portrait) and (min-device-width: 768px) and (max-device-width: 820px),
-       screen and (orientation: landscape) and (min-device-width: 768px) and (max-device-width: 844px) {
+@media screen and (orientation: portrait) and (min-width: 768px) and (max-width: 820px),
+       screen and (orientation: landscape) and (min-width: 768px) and (max-width: 844px) {
   /* Marathon: aller à la ligne: */ 
   .hero-headline span:first-of-type:after{
     content: "\A";
