@@ -1,6 +1,7 @@
 import * as mn from "./menu.js";
 import * as md from "./modal.js";
 import * as fm from "./form.js";
+import * as ok from "./confirmation.js";
 /**
  * Point d'entrée du programme pour gérer l'inscription
  * Ecouter les évèvements pour : 
@@ -38,7 +39,7 @@ document.querySelector('form[name="reserve"] input[type="submit"]').addEventList
         // Ecrire sur la console toutes les valeurs mémorisées d'une inscription validée
         console.table(fm.arrInscription);
         // Fermer le formulaire de confirmation
-        fm.createFormConfirmation();
+        ok.createFormConfirmation();
     } else {
         // Rester sur le formulaire en erreur
         e.preventDefault();
