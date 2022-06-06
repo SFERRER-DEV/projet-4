@@ -1,7 +1,13 @@
 import * as mn from "./menu.js";
 import * as md from "./modal.js";
 import * as fm from "./form.js";
-
+/**
+ * Point d'entrée du programme pour gérer l'inscription
+ * Ecouter les évèvements pour : 
+ *  - Ouvrir fermer la modale
+ *  - Afficher masquer le menu responsive
+ *  - Valider le formualaire
+ */
 // Récupérer le bouton "Je m'inscris" pour ajouter une fonction qui affiche 
 // la fenêtre modale du formulaire d'inscription et qui se déclenche sur l'évènement du clique
 document.getElementById("btn-opening-inscription").addEventListener("click", function(e) {
