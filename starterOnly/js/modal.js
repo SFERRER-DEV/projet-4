@@ -19,6 +19,9 @@ export function launchModal() {
 
 // Cacher la fenêtre d'inscription au concours
 export function hideModal() {
+  // Recharger le DOM 
+  window.location.reload();
+  // S'assurer que la modale n'est pas visible
   const form = document.getElementById("form-inscription");
   form.style.display = "none";
 }

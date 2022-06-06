@@ -18,7 +18,7 @@ import * as mess from "./messages.js";
 export const validateField = (field) => {
     const validityState = field.validity;
     let message = '';
-    console.log(`Testing: ${field.type} - ${field.name}`);
+    //console.log(`Testing: ${field.type} - ${field.name}`);
     // Rendre valide la présentation du conteneur formData
     resetValidation(field);
 

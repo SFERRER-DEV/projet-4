@@ -127,3 +127,30 @@ function createFormConfirmation() {
     // Ajouter au DOM
     md.formReserve.appendChild(close);
 }
+/*
+    Remise à zéro et à blanc du formulaire
+    Cette fonction n'est pas utilisée, le DOM est rechargée à la place
+*/
+function razForm() {
+    // Obtenir tous les champs input du formulaire
+    const fields = document.querySelectorAll('.formData input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="checkbox"], input[type="radio"]');
+    // Parcourir tous les champs et effectuer un RAZ ou un RAB du champ
+    for(let field of fields){
+        if (field.type === "checkbox" | field.type === "radio") {
+            field.checked = false;
+        } if (field.type === "text" | field.type === "email") {
+            field.value = '';
+        } else {
+            field.value = undefined;
+        }
+        // Effacer un éventuel message d'erreur précédent pour les champs concernés
+        field.setCustomValidity('');
+    }
+    // Effacer les messages d'erreurs précédents du formulaire
+    const formItems = md.formReserve.querySelectorAll(".formData");
+    for(let item of formItems)
+    {
+        item.setAttribute('data-error-visible', false);
+        item.setAttribute('data-error', '');
+    }
+}
