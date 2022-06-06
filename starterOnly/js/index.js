@@ -31,4 +31,16 @@ document.getElementById("birthdate").setAttribute("max", new Date().toISOString(
 document.querySelector('.main-navbar a.icon').addEventListener("click", mn.editNav);
 
 // Récupérer le bouton d'envoi du formulaire "C'est parti" pour ajouter une fonction qui se déclenche sur l'évènement clic
-document.querySelector('form[name="reserve"] input[type="submit"]').addEventListener("click", function(e){fm.checkValidity(e);});
+document.querySelector('form[name="reserve"] input[type="submit"]').addEventListener("click", function(e){
+    // Vérifier que l'intégralité des champs sont valides
+    const valid = fm.checkValidity(e);
+    if(valid){
+        // Ecrire sur la console toutes les valeurs mémorisées d'une inscription validée
+        console.table(fm.arrInscription);
+        // Fermer le formulaire de confirmation
+        fm.createFormConfirmation();
+    } else {
+        // Rester sur le formulaire en erreur
+        e.preventDefault();
+    }
+});

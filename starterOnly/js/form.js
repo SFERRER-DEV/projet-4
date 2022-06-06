@@ -21,7 +21,6 @@ export function checkValidity(e) {
     let valid = true;
     // Vider le tableau des valeurs et des champs mémorisés
     arrInscription.splice(0, arrInscription.length);
-
     // Parcourir les champs input du formulaire
     for(let input of fields){
         // Vérifier si les contraintes de chaque élément sont valides et afficher les messages de correction sur le navigateur.
@@ -52,28 +51,17 @@ export function checkValidity(e) {
                     }
                 }
                 break;
-
             default:
                 console.log(`Input ${input.type} not testing: ${input.name}`);
         }
 
-        // Si les une fonction dédiée n'a pas validé les contraintes d'un champ alors ...
+        // Si les une fonction n'a pas validé les contraintes d'un champ alors ...
         if(!valid){
             // ...  arrêter toute la validation
             break;
         }
     }
-
-    // Vérifier que l'intégralité des champs sont valides
-    if(valid){
-        // Ecrire sur la console toutes les valeurs d'une inscription validée
-        console.table(arrInscription);
-        // Fermer le formulaire de confirmation
-        createFormConfirmation();
-    } else {
-        // Rester sur le formulaire en erreur
-        e.preventDefault();
-    }
+    return valid;
 }
 
 /*
@@ -101,69 +89,51 @@ function getTournament() {
     Créer et afficher le formulaire de confirmation
     en modifiant le DOM du formulaire validé
 */
-function createFormConfirmation() {
-    // Récupérer les éléments champs, le texte et le bouton dans une collection
-    const formItems = md.formReserve.querySelectorAll(".formData, .text-label, .btn-submit");
-    // 1) Parcourir la collection et supprimer ces éléments pour vider le formulaire validé
-    formItems.forEach(item => item.remove());
-    // Redimensionner le formulaire vidé avec la dimension mémorisée au moment de l'ouverture de la modale
-    md.formReserve.style.height = `${md.height}px`;
-    // 2) Assembler le formulaire pour afficher la confirmation
-    // Rendre flexible le formulaire
-    md.formReserve.style.display = 'flex';
-    md.formReserve.style.flexDirection = 'column';
-    md.formReserve.style.justfyContent = 'space-between';
-    md.formReserve.style.alignItems = 'center';
-    // Préparer 1er paragraphe: Merci pour
-    let firstPargraph = document.createElement('p');
-    firstPargraph.style.flexGrow = '1';
-    firstPargraph.style.width = '100%';
-    firstPargraph.style.display = 'flex';
-    firstPargraph.style.justifyContent = 'center';
-    firstPargraph.style.alignItems = 'flex-end';
-    firstPargraph.appendChild(document.createTextNode('Merci pour'));
-    // Ajouter au DOM
-    md.formReserve.appendChild(firstPargraph);
-    // Préparer 2nd paragraphe: votre inscription
-    let secondParagraph = document.createElement('p');
-    secondParagraph.style.flexGrow = '1';
-    secondParagraph.style.width = '100%';
-    secondParagraph.style.display = 'flex';
-    secondParagraph.style.justifyContent = 'center';
-    secondParagraph.appendChild(document.createTextNode('votre inscription'));
-    // Ajouter au DOM
-    md.formReserve.appendChild(secondParagraph);
-    // Préparer le bouton: fermer
+export function createFormConfirmation() {
+    // Préparer le formulaire de confirmation
+    setFormConfirmation();
+    // Ajouter un premier paragraphe au DOM
+    const p = addParagraph('Merci pour');
+    p.style.alignItems='flex-end';
+    md.formReserve.appendChild(p);
+    // Ajouter un second paragraphe au DOM
+    md.formReserve.appendChild(addParagraph('votre inscription'));
+    // Préparer le bouton pour fermer le formulaire
     const close = document.createElement('button');
     close.classList.add('btn-submit');
     close.classList.add('button');
     close.innerText = 'fermer';
     close.addEventListener("click", md.hideModal);
-    // Ajouter au DOM
+    // Ajouter le bouton au DOM
     md.formReserve.appendChild(close);
 }
+
 /*
-    Remise à zéro et à blanc du formulaire
-    Cette fonction n'est pas utilisée, le DOM est rechargée à la place
+    Préparer l'affichage du formulaire
+    de confirmation à partir du formulaire validée
 */
-function razForm() {
-    // Parcourir tous les champs et effectuer un RAZ ou un RAB du champ
-    for(let field of fields){
-        if (field.type === "checkbox" | field.type === "radio") {
-            field.checked = false;
-        } if (field.type === "text" | field.type === "email") {
-            field.value = '';
-        } else {
-            field.value = undefined;
-        }
-        // Effacer un éventuel message d'erreur précédent pour les champs concernés
-        field.setCustomValidity('');
-    }
-    // Effacer les messages d'erreurs précédents du formulaire
-    const formItems = md.formReserve.querySelectorAll(".formData");
-    for(let item of formItems)
-    {
-        item.setAttribute('data-error-visible', false);
-        item.setAttribute('data-error', '');
-    }
+function setFormConfirmation() {
+    // Récupérer les éléments champs, le texte et le bouton dans une collection
+    const formItems = md.formReserve.querySelectorAll(".formData, .text-label, .btn-submit");
+    // Parcourir cette collection et supprimer ces éléments pour vider le formulaire validé
+    formItems.forEach(item => item.remove());
+    // Redimensionner le formulaire vidé avec la dimension mémorisée au moment de l'ouverture de la modale
+    md.formReserve.style.height = `${md.height}px`;
+}
+
+/*
+    Ajouter un paragraphe et son texte 
+    dans le formulaire de confirmation
+*/
+let addParagraph = (strTexte) => {
+    // Préparer un paragraphe: votre inscription
+    let para = document.createElement('p');
+    para.style.flexGrow = '1';
+    para.style.width = '100%';
+    para.style.display = 'flex';
+    para.style.justifyContent = 'center';
+    // Ecrire le texte dans le paragraphe
+    para.appendChild(document.createTextNode(strTexte));
+    // Renvoyer le paragraphe pour être affiché
+    return para;
 }

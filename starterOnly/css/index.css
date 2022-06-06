@@ -133,6 +133,14 @@ main {
   padding: 15px 8%;
   margin: 15px auto;
 }
+/*  Rendre flexible le formulaire pour l'affichage de la confirmation*/
+.modal-body > form[name="reserve"]
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
 label {
   font-family: var(--font-default);
   font-size: 17px;
@@ -152,6 +160,9 @@ input {
   border-radius: 8px;
   font-size: 20px;
   height: 48px;
+}
+.formData {
+  width: 100%;
 }
 /*  Monter les erreurs de validation >>> */
 .formData[data-error]::after {
