@@ -24,10 +24,8 @@ export const checkValidity = () => {
     let valid = true;
     // Valeur d'un champ et récupérée suivant son type
     let valeur = '';
-    let nom = '';
     // Parcourir les champs input à contrôler du formulaire
     for(let input of fields){
-        nom = input.name;
         // Un test de validation doit se faire Ssi il s'agit du premier radio de groupe 
         // ou pour tous les autres types de champs : text, email, number, date, checkbox
         if (input.type === "radio") {
@@ -41,15 +39,13 @@ export const checkValidity = () => {
         if (valid) {
             // Mémoriser le champ et sa valeur validée dans un tableau
             valeur = getFieldValue(input);
-            arrInscription.push({name: nom, value: valeur}); 
+            arrInscription.push({name: input.name, value: valeur}); 
+            valeur = '';
         } else {
             // KO: Arrêter toute la validation, 
             // Si toutes les contraintes d'un champ ne sont pas validées.
             break;
         }
-        // RaB
-        nom = '';
-        valeur = '';
     }
     return valid;
 }
