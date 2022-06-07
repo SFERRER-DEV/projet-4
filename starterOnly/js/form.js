@@ -2,7 +2,7 @@ import * as func from "./functions.js";
 /**
  * Gère les intéractions du formulaire d'inscription
  * 
- * - checkValidity(valid)
+ * - const checkValidity()
  * - const getFieldValue(input)
  * - const firstRadio(input)
  * - const getTournament()
@@ -19,13 +19,15 @@ let arrInscription = new Array();
 /*
   Fonction principale contenant la logique de validation du formulaire
 */
-export function checkValidity(valid) {
+export const checkValidity = () => {
+    // Flag
+    let valid = true;
     // Parcourir les champs input à contrôler du formulaire
     for(let input of fields){
         // Un test de validation doit se faire Ssi il s'agit du premier radio de groupe 
         // ou pour tous les autres types de champs : text, email, number, date, checkbox
         if((input.type === "radio" && firstRadio(input)) | (input.type !== "radio")) {
-            valid &= func.validateField(input);
+            valid = func.validateField(input);
             // OK: Continuer 
             if (valid) {
                 // Mémoriser le champ et sa valeur validée dans un tableau
@@ -37,7 +39,6 @@ export function checkValidity(valid) {
             }
         }
     }
-
     return valid;
 }
 

@@ -38,7 +38,7 @@ document.querySelector('form[name="reserve"] input[type="submit"]').addEventList
     // Flag résutlat des fonctions de validation de contraintes de champ
      let valid = true;
     // Vérifier que l'intégralité des champs sont valides
-     valid = fm.checkValidity(valid);
+     valid = fm.checkValidity();
     if(valid){
         // Ecrire les champs et leurs valeurs sur la console.
         fm.afficherTableauMemo();
