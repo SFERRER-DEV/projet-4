@@ -3,6 +3,9 @@ import * as func from "./functions.js";
  * Gère les intéractions du formulaire d'inscription
  * 
  * - checkValidity(valid)
+ * - const getFieldValue(input)
+ * - const firstRadio(input)
+ * - getTournament()
  * 
  */
 

@@ -1,4 +1,4 @@
-/*
+/**
  * Tableau des messages d'indication de validation des champs du formulaire
  * La propriété name du tableau a les mêmes valeurs que la propriété name des champs du formulaire
  * 

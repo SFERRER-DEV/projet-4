@@ -16,7 +16,7 @@ Réaliser les issues github du projet GameOn avec du JavaScript Vanilla à parti
 * Le principal breakpoint correspond à une petite tablette: 768px. Les autres breakpoints et orientations concernent uniquement la lisibilité du titre principal.
 * Un menu hamburger remplace le menu desktop sur tablettes et mobiles.
 * Les fichiers index.html et index.css ont été validés par les validateurs du W3C.
-* Le repo Github est lié à l'application Codeclimate et il reste les issues ci-dessous dans le fichier form.js
+* Le repo Github est lié à l'application Codeclimate, il reste l'issue Codeclimate ci-dessous dans le fichier form.js
     * Function checkValidity has a Cognitive Complexity of 8 (exceeds 5 allowed).
 
 ## Liens
