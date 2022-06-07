@@ -19,47 +19,62 @@ export function checkValidity() {
     let valid = true;
     // Vider le tableau des valeurs et des champs mémorisés
     arrInscription.splice(0, arrInscription.length);
-    // Parcourir les champs input du formulaire
+    // Parcourir les champs input à contrôler du formulaire
     for(let input of fields){
-        // Vérifier si les contraintes de chaque élément sont valides et afficher les messages de correction sur le navigateur.
-        switch(input.type)
-        {
-            case "radio":
-                // Rechercher si il existe un radio prédécesseur avant le radio courant et avant le label 
-                let previousRadio = (input.previousElementSibling && input.previousElementSibling.previousElementSibling);
-                if (previousRadio !== null) {
-                    break;
-                }
-            case "text":
-            case "email":
-            case "number":
-            case "date":
-            case "checkbox":
-                valid &= func.validateField(input);
-                if (valid) {
-                    if(input.type === 'checkbox') {
+        // Un test de validation doit se faire Ssi il s'agit du premier radio de groupe 
+        // ou pour tous les autres types de champs : text, email, number, date, checkbox
+        if((input.type === "radio" && firstRadio(input)) | (input.type !== "radio")) {
+            valid &= func.validateField(input);
+            // OK: Continuer 
+            if (valid) {
+                // La valeur à mémoriser d'un champ validé dépend du type du champ contrôlé
+                switch(input.type)
+                {
+                    case "radio":
+                        // Mémoriser la valeur de la radio sélectionnée
+                        arrInscription.push({name: input.name, value: getTournament()}); 
+                        break;
+                    case "checkbox":
                         // Mémoriser si une case est cochée ou non
                         arrInscription.push({name: input.name, value: input.checked});
-                    } else if(input.type === 'radio') { 
-                        // Mémoriser la valeur de la radio sélectionnée
-                        arrInscription.push({name: input.name, value: getTournament()});
-                    } else {
+                        break;
+                    default:
+                        // text, email, number, date.
                         // Mémoriser la valeur du champ
-                        arrInscription.push({name: input.name, value: input.value});
-                    }
+                        arrInscription.push({name: input.name, value: input.value}); 
+                        break;
                 }
+            } else {
+                // KO: Arrêter toute la validation, 
+                // Si toutes les contraintes d'un champ ne sont pas validées.
                 break;
-            default:
-                console.log(`Input ${input.type} not testing: ${input.name}`);
-        }
-
-        // Si les une fonction n'a pas validé les contraintes d'un champ alors ...
-        if(!valid){
-            // ...  arrêter toute la validation
-            break;
+            }
         }
     }
+
     return valid;
+}
+
+
+/*
+    Déterminer si un radio est le premier élément de son
+    groupe de radios
+    car seul la validité du premier radio du groupe a besoin d'être testé
+*/
+const firstRadio = (input) => {
+    if(input.type !== "radio") {
+        return false;
+    } else {
+        // alors rechercher si il existe un radio prédécesseur avant le radio courant et avant le label 
+        let previousRadio = (input.previousElementSibling && input.previousElementSibling.previousElementSibling);
+        if (previousRadio === null) {
+            // c'est le prmeir radio
+            return true;
+        } else {
+            // Ce radio a un prédécesseur
+            return false;
+        }
+    }
 }
 
 /*
