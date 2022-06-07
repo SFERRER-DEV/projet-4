@@ -5,14 +5,16 @@ import * as func from "./functions.js";
  * - checkValidity(valid)
  * - const getFieldValue(input)
  * - const firstRadio(input)
- * - getTournament()
+ * - const getTournament()
+ * - const viderTableauMemo()
+ * - afficherTableauMemo()
  * 
  */
 
 // Récupérer un ensemble d'élements du formulaire à valider
 export const fields = document.querySelectorAll('.formData input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="checkbox"], input[type="radio"]');
 // Tableau pour stocker les valeurs des champs d'une inscription
-export let arrInscription = new Array();
+let arrInscription = new Array();
 
 /*
   Fonction principale contenant la logique de validation du formulaire
@@ -87,7 +89,7 @@ const firstRadio = (input) => {
     Obtenir la valeur du bouton radio sélectionné 
     pour les tournois (=le nom de la ville)
 */
-function getTournament() {
+const getTournament = () => {
     // Obtenir la collection des radios des tournois
     const radios = document.getElementsByName('location');
     // Obtenir un tableau avec un seul élément contenant la valeur du radio choisi
@@ -104,3 +106,18 @@ function getTournament() {
     }
 }
 
+/*
+    Vider le tableau des valeurs et des champs mémorisés
+    Et renvoyer le nombre d'éléments supprimés
+*/
+export const viderTableauMemo = () => {
+        let elements = arrInscription.splice(0, arrInscription.length);
+        return elements.length;
+}
+
+/*
+    Ecrire sur la console toutes les valeurs mémorisées d'une inscription validée
+*/
+export function afficherTableauMemo() {
+        console.table(arrInscription);
+}

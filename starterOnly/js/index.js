@@ -1,7 +1,7 @@
 import * as mn from "./menu.js";
 import * as md from "./modal.js";
 import * as fm from "./form.js";
-import * as ok from "./confirmation.js";
+import * as fmOK from "./confirmation.js";
 /**
  * Point d'entrée du programme pour gérer l'inscription
  * Ecouter les évèvements pour : 
@@ -34,18 +34,18 @@ document.querySelector('.main-navbar a.icon').addEventListener("click", mn.editN
 // Récupérer le bouton d'envoi du formulaire "C'est parti" pour ajouter une fonction qui se déclenche sur l'évènement clic
 document.querySelector('form[name="reserve"] input[type="submit"]').addEventListener("click", function(e){
     // Vider le tableau des valeurs et des champs mémorisés
-    fm.arrInscription.splice(0, fm.arrInscription.length);
+    fm.viderTableauMemo();
     // Flag résutlat des fonctions de validation de contraintes de champ
      let valid = true;
     // Vérifier que l'intégralité des champs sont valides
      valid = fm.checkValidity(valid);
     if(valid){
-        // Ecrire sur la console toutes les valeurs mémorisées d'une inscription validée
-        console.table(fm.arrInscription);
-        // Fermer le formulaire de confirmation
-        ok.createFormConfirmation();
+        // Ecrire les champs et leurs valeurs sur la console.
+        fm.afficherTableauMemo();
+        // Afficher le formulaire de confirmation
+        fmOK.createFormConfirmation();
     } else {
-        // Rester sur le formulaire en erreur
+        // Rester sur le formulaire d'inscription en erreur
         e.preventDefault();
     }
 });

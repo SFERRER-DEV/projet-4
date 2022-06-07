@@ -1,5 +1,8 @@
+import * as fm from "./form.js";
 /**
  * Gérér la fenêtre du formulaire d'inscription.
+ * - launchModal()
+ * - hideModal()
  */
 
 // Stock la hauteur en pixels du formulaire
@@ -19,9 +22,16 @@ export function launchModal() {
 
 // Cacher la fenêtre d'inscription au concours
 export function hideModal() {
-  // Recharger le DOM 
-  window.location.reload();
+  // Vider le tableau des valeurs et des champs mémorisés
+  if (fm.viderTableauMemo() === 8) {
+    // Si le tableau contenait des champs mémorisés
+    // alors il faut recharger le DOM et index.js
+    // Huit champs mémorisés et validés => C'est formulaire de confirmation qui est affiché
+    window.location.reload();
+  } else {
   // S'assurer que la modale n'est pas visible
-  const form = document.getElementById("form-inscription");
-  form.style.display = "none";
+  // Ne pas recharger le DOM pour ne pas perdre les champs déjà saisis
+    const form = document.getElementById("form-inscription");
+    form.style.display = "none";
+  }
 }
