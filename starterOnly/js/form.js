@@ -27,23 +27,8 @@ export function checkValidity() {
             valid &= func.validateField(input);
             // OK: Continuer 
             if (valid) {
-                // La valeur à mémoriser d'un champ validé dépend du type du champ contrôlé
-                switch(input.type)
-                {
-                    case "radio":
-                        // Mémoriser la valeur de la radio sélectionnée
-                        arrInscription.push({name: input.name, value: getTournament()}); 
-                        break;
-                    case "checkbox":
-                        // Mémoriser si une case est cochée ou non
-                        arrInscription.push({name: input.name, value: input.checked});
-                        break;
-                    default:
-                        // text, email, number, date.
-                        // Mémoriser la valeur du champ
-                        arrInscription.push({name: input.name, value: input.value}); 
-                        break;
-                }
+                // Mémoriser le champ et sa valeur validée dans un tableau
+                arrInscription.push({name: input.name, value: getFieldValue(input)}); 
             } else {
                 // KO: Arrêter toute la validation, 
                 // Si toutes les contraintes d'un champ ne sont pas validées.
@@ -55,31 +40,53 @@ export function checkValidity() {
     return valid;
 }
 
+/*
+    Obtenir valeur d'un champ saisi par l'utilisateur
+    Déterminer la valeur d'un champ  dépend du type du champ
+*/
+const getFieldValue = (input) => {
+    let valeur;
+    switch(input.type)
+    {
+        case "radio":
+            // Mémoriser la valeur du radio sélectionné
+            valeur = getTournament(); 
+            break;
+        case "checkbox":
+            // Mémoriser si une case est cochée ou non
+            valeur = input.checked;
+            break;
+        default:
+            // text, email, number, date.
+            // Mémoriser la valeur du champ
+            valeur = input.value; 
+            break;
+    }
+    return valeur;
+}
 
 /*
-    Déterminer si un radio est le premier élément de son
-    groupe de radios
-    car seul la validité du premier radio du groupe a besoin d'être testé
+    Déterminer si un radio est le premier élément de son groupe
+    car seule la validité du premier radio du groupe a besoin d'être testée
 */
 const firstRadio = (input) => {
     if(input.type !== "radio") {
         return false;
+    }
+    // Rechercher si il existe un radio prédécesseur avant le radio courant et avant le label 
+    let previousRadio = (input.previousElementSibling && input.previousElementSibling.previousElementSibling);
+    if (previousRadio === null) {
+        // c'est le premier radio
+        return true;
     } else {
-        // alors rechercher si il existe un radio prédécesseur avant le radio courant et avant le label 
-        let previousRadio = (input.previousElementSibling && input.previousElementSibling.previousElementSibling);
-        if (previousRadio === null) {
-            // c'est le prmeir radio
-            return true;
-        } else {
-            // Ce radio a un prédécesseur
-            return false;
-        }
+        // Ce radio a un prédécesseur
+        return false;
     }
 }
 
 /*
     Obtenir la valeur du bouton radio sélectionné 
-    pour les tournois
+    pour les tournois (=le nom de la ville)
 */
 function getTournament() {
     // Obtenir la collection des radios des tournois
