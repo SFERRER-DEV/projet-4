@@ -16,9 +16,11 @@ import * as mess from "./messages.js";
     - Ou alors un des messages génériques obtenus depuis l'API Validation
 */
 export const validateField = (field) => {
-    const validityState = field.validity;
+    // Le message de validation affiché à l'utilisateur
     let message = '';
-    //console.log(`Testing: ${field.type} - ${field.name}`);
+    //
+    const validityState = field.validity;
+    // console.log(`Testing: ${field.type} - ${field.name}`);
     // Rendre valide la présentation du conteneur formData
     resetValidation(field);
 
@@ -35,10 +37,10 @@ export const validateField = (field) => {
     {
       // Marquer le container formData en erreur
       updateMessageValidation(field, message)
-      return false;
-    } else {
-      return true;
-    }
+    } 
+
+    return validityState.valid;
+    
   }
 
 /*
@@ -53,7 +55,8 @@ function resetValidation(field) {
       // Faire disparaitre la bordure rouge sur le champ du formulaire
       formData.setAttribute('data-error', '');
       formData.setAttribute('data-error-visible', false);
-      // Effacer un éventuel message d'erreur précédent
+      // Effacer un éventuel message spécifique d'erreur précédent
+      // et field.validMessage redevient un message d'erreur générique de l'API
       field.setCustomValidity('');
     }
 }

@@ -50,16 +50,16 @@ const getFieldValue = (input) => {
     switch(input.type)
     {
         case "radio":
-            // Mémoriser la valeur du radio sélectionné
+            // Renvoyer la valeur du radio sélectionné
             valeur = getTournament(); 
             break;
         case "checkbox":
-            // Mémoriser si une case est cochée ou non
+            // Renvoyer si une case est cochée ou non
             valeur = input.checked;
             break;
         default:
             // text, email, number, date.
-            // Mémoriser la valeur du champ
+            // Renvoyer la valeur du champ
             valeur = input.value; 
             break;
     }
