@@ -26,17 +26,18 @@ export const checkValidity = () => {
     for(let input of fields){
         // Un test de validation doit se faire Ssi il s'agit du premier radio de groupe 
         // ou pour tous les autres types de champs : text, email, number, date, checkbox
-        if((input.type === "radio" && firstRadio(input)) | (input.type !== "radio")) {
-            valid = func.validateField(input);
-            // OK: Continuer 
-            if (valid) {
-                // Mémoriser le champ et sa valeur validée dans un tableau
-                arrInscription.push({name: input.name, value: getFieldValue(input)}); 
-            } else {
-                // KO: Arrêter toute la validation, 
-                // Si toutes les contraintes d'un champ ne sont pas validées.
-                break;
-            }
+        if (input.type === "radio" && !firstRadio(input)) {
+            continue;
+        }
+        valid = func.validateField(input);
+        // OK: Continuer 
+        if (valid) {
+            // Mémoriser le champ et sa valeur validée dans un tableau
+            arrInscription.push({name: input.name, value: getFieldValue(input)}); 
+        } else {
+            // KO: Arrêter toute la validation, 
+            // Si toutes les contraintes d'un champ ne sont pas validées.
+            break;
         }
     }
     return valid;
