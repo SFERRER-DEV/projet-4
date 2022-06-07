@@ -17,8 +17,7 @@ Réaliser les issues github du projet GameOn avec du JavaScript Vanilla à parti
 * Un menu hamburger remplace le menu desktop sur tablettes et mobiles.
 * Les fichiers index.html et index.css ont été validés par les validateurs du W3C.
 * Le repo Github est lié à l'application Codeclimate et il reste les issues ci-dessous dans le fichier form.js
-    * Function checkValidity has a Cognitive Complexity of 12 (exceeds 5 allowed).
-    * Function firstRadio has a Cognitive Complexity of 6 (exceeds 5 allowed). 
+    * Function checkValidity has a Cognitive Complexity of 8 (exceeds 5 allowed).
 
 ## Liens
 Voir le site sur github pages : [Openclassrooms projet 4: GameOn](https://sferrer-dev.github.io/projet-4/starterOnly/index.html)

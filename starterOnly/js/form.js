@@ -2,7 +2,7 @@ import * as func from "./functions.js";
 /**
  * Gère les intéractions du formulaire d'inscription
  * 
- * - checkValidity(e)
+ * - checkValidity(valid)
  * 
  */
 
@@ -14,11 +14,7 @@ export let arrInscription = new Array();
 /*
   Fonction principale contenant la logique de validation du formulaire
 */
-export function checkValidity() {
-    // Flag résutlat des fonctions de validation de contraintes de champ
-    let valid = true;
-    // Vider le tableau des valeurs et des champs mémorisés
-    arrInscription.splice(0, arrInscription.length);
+export function checkValidity(valid) {
     // Parcourir les champs input à contrôler du formulaire
     for(let input of fields){
         // Un test de validation doit se faire Ssi il s'agit du premier radio de groupe 
