@@ -28,20 +28,25 @@ img {
 .topnav {
   overflow: hidden;
   margin: 3.5%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 .header-logo {
-    float: left;
+    flex-shrink: 1;
 }
 .main-navbar {
-    float: right;
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
 }
 .topnav a {
   float: left;
   display: block;
   color: #000000;
   text-align: center;
-  padding: 12px 12px;
-  margin: 5px;
+  padding: 1% 1%;
+  margin: 1%;
   text-decoration: none;
   font-size: 20px;
   font-family: Roboto, sans-serif;
@@ -483,6 +488,8 @@ footer {
   /* Menu */
   .main-navbar {
     float: none;
+    display: block;
+    flex-grow: unset;
   }
   .topnav.responsive .main-navbar {
     display: flex;
@@ -497,6 +504,7 @@ footer {
     display: block;
     width: max-content;
     box-shadow: none;
+    margin: 0;
   }
   .topnav.responsive .icon {
     order: -1;
@@ -509,6 +517,7 @@ footer {
   .topnav a {
     float: none;
     display: none;
+    padding: 12px 12px;
   }
   .topnav.responsive a {
     display: block;
