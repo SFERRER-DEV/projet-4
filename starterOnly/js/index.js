@@ -46,6 +46,8 @@ document
     fm.viderTableauMemo();
     // Flag résutlat des fonctions de validation de contraintes de champ
     let valid = true;
+    // Effacer toutes les erreurs affichées
+    fm.cleanAllFormData();
     // Vérifier que l'intégralité des champs sont valides
     valid = fm.checkValidity();
     if (valid) {

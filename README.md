@@ -6,6 +6,7 @@ Réaliser les issues github du projet GameOn avec du JavaScript Vanilla à parti
 
 - La validation du formulaire d'inscription est faite par l'API Validation avec des attributs HTML.
 - Le format des données est testé en JavaScript par la fonction principale checkValidity() du fichier form.js qui est le programme du contrôle du formulaire.
+- Le programme affiche toutes les erreurs de validations des champs du formulaire se positionne le focus sur le premier champ détecté en erreur.
 - Le fichier functions.js contient des fonctions utilitaires nécessaires au programme principal.
 - Des messages spécifiques de validation à destination de l'utilisateur proviennent d'un tableau dans le fichier messages.js et dans certains cas ce sont les messages génériques de l'API Validation qui sont affichés.
 - Les attibuts data-error et data-error-visible permettent de marquer le champ du formulaire en erreur en l'entourant en rouge et en le faisant suivre de son message validation.
@@ -18,8 +19,8 @@ Réaliser les issues github du projet GameOn avec du JavaScript Vanilla à parti
 - Le principal breakpoint correspond à une petite tablette: 768px. Les autres breakpoints et orientations concernent uniquement la lisibilité du titre principal.
 - Un menu hamburger remplace le menu desktop sur tablettes et mobiles.
 - Les fichiers index.html et index.css ont été validés par les validateurs du W3C.
-- Le repo Github est lié à l'application Codeclimate, il reste l'issue Codeclimate ci-dessous dans le fichier form.js
-  - Function checkValidity has a Cognitive Complexity of 8 (exceeds 5 allowed).
+- Les problèmes dans le codebase sont d'abord contrôlés par l'extension SonarLint de VS Code, puis la branche dev du repo Github est liée à l'application Codeclimate.
+- L'extension Prettier de VS Code a formatté tout le codebase.
 
 ## Liens
 

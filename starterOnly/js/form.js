@@ -8,6 +8,7 @@ import * as func from "./functions.js";
  * - const getTournament()
  * - const viderTableauMemo()
  * - afficherTableauMemo()
+ * - const cleanAllFormData()
  *
  */
 
@@ -22,10 +23,12 @@ let arrInscription = new Array();
   Fonction principale contenant la logique de validation du formulaire
 */
 export const checkValidity = () => {
-  // Flag
+  // Flag formulaire
   let valid = true;
-  // Valeur d'un champ et récupérée suivant son type
-  let valeur = "";
+  // Flag champ
+  let ok = true;
+  // Mémoriser les champs en erreur
+  let fieldsErrorsFocus = new Array();
   // Parcourir les champs input à contrôler du formulaire
   for (let input of fields) {
     // Un test de validation doit se faire Ssi il s'agit du premier radio de groupe
@@ -36,18 +39,20 @@ export const checkValidity = () => {
         continue;
       }
     }
-    valid = func.validateField(input);
-    // OK: Continuer
-    if (valid) {
-      // Mémoriser le champ et sa valeur validée dans un tableau
-      valeur = getFieldValue(input);
-      arrInscription.push({ name: input.name, value: valeur });
-      valeur = "";
+    // Tester champ
+    ok = func.validateField(input);
+    valid &= ok;
+    // Si toutes les contraintes d'un champ sont calidées
+    if (ok) {
+      // OK: Alors mémoriser le champ et sa valeur validée dans un tableau
+      arrInscription.push({ name: input.name, value: getFieldValue(input) });
     } else {
-      // KO: Si toutes les contraintes d'un champ ne sont pas validées.
-      // Alors arrêter toute la validation
-      break;
+      // KO: Sinon mémoriser ce champ en erreur
+      fieldsErrorsFocus.push(input);
     }
+  }
+  if (fieldsErrorsFocus.length > 0) {
+    fieldsErrorsFocus[0].focus();
   }
   return valid;
 };
@@ -117,6 +122,17 @@ const getTournament = () => {
     return tournament[0];
   } else {
     return "";
+  }
+};
+
+/*
+  Remise à Zéro de la présentation de toutes les  erreurs  de 
+  validation affichées sur le formulaire
+*/
+export const cleanAllFormData = () => {
+  // La collection fields contient tous les élements du formulaire à valider
+  for (let input of fields) {
+    func.resetValidation(input);
   }
 };
 

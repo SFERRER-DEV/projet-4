@@ -45,10 +45,10 @@ export const validateField = (field) => {
 };
 
 /*
-  Fonction utile pour remettre à zéro un champ
-  et sa présentation au début d'une validation (RAZ)
+  Fonction utile pour remettre à la présentation d'un champ
+  à zéro au début d'une validation (RAZ)
 */
-function resetValidation(field) {
+export function resetValidation(field) {
   // Récupérer le noeud parent du champ passé à la fonction
   const formData = field.parentNode;
   // Vérifier que ce noeud parent correspond bien au div conteneur formData
