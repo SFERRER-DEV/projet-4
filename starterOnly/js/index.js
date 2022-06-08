@@ -13,7 +13,7 @@ import * as fmOK from "./confirmation.js";
 // la fenêtre modale du formulaire d'inscription et qui se déclenche sur l'évènement du clique
 document
   .getElementById("btn-opening-inscription")
-  .addEventListener("click", function (e) {
+  .addEventListener("click", function () {
     // Si le menu responsive est affiché, il sera caché avant ...
     let x = document.getElementById("myTopnav");
     if (x.classList.contains("responsive")) {

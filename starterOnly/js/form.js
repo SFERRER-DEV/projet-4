@@ -44,8 +44,8 @@ export const checkValidity = () => {
       arrInscription.push({ name: input.name, value: valeur });
       valeur = "";
     } else {
-      // KO: Arrêter toute la validation,
-      // Si toutes les contraintes d'un champ ne sont pas validées.
+      // KO: Si toutes les contraintes d'un champ ne sont pas validées.
+      // Alors arrêter toute la validation
       break;
     }
   }
@@ -88,13 +88,12 @@ const firstRadio = (input) => {
   let previousRadio =
     input.previousElementSibling &&
     input.previousElementSibling.previousElementSibling;
+  let isFirst = false;
   if (previousRadio === null) {
     // c'est le premier radio
-    return true;
-  } else {
-    // Ce radio a un prédécesseur
-    return false;
+    isFirst = true;
   }
+  return isFirst;
 };
 
 /*
