@@ -29,8 +29,8 @@ export function hideModal() {
     // Huit champs mémorisés et validés => C'est formulaire de confirmation qui est affiché
     window.location.reload();
   } else {
-  // S'assurer que la modale n'est pas visible
-  // Ne pas recharger le DOM pour ne pas perdre les champs déjà saisis
+    // S'assurer que la modale n'est pas visible
+    // Ne pas recharger le DOM pour ne pas perdre les champs déjà saisis
     const form = document.getElementById("form-inscription");
     form.style.display = "none";
   }
