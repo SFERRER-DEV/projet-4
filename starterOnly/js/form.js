@@ -51,6 +51,7 @@ export const checkValidity = () => {
       fieldsErrorsFocus.push(input);
     }
   }
+  // Positionner l'utilisateur sur le premier champ en erreur de validation
   if (fieldsErrorsFocus.length > 0) {
     fieldsErrorsFocus[0].focus();
   }

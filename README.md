@@ -27,3 +27,5 @@ Réaliser les issues github du projet GameOn avec du JavaScript Vanilla à parti
 Voir le site sur github pages : [Openclassrooms projet 4: GameOn](https://sferrer-dev.github.io/projet-4/starterOnly/index.html)
 
 Les issues sur le dépot d'origine: [Issues](https://github.com/OpenClassrooms-Student-Center/GameOn-website-FR/issues)
+
+Code Climate: [Codebase summary projet 4](https://codeclimate.com/github/SFERRER-DEV/projet-4)
