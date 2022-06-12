@@ -5,13 +5,15 @@ import * as fm from "./form.js";
  * - hideModal()
  */
 
-// Stock la hauteur en pixels du formulaire
+/** @type {Number} Stock la hauteur en pixels du formulaire */
 export let height;
 
-// Obtenir le fragment du DOM correspondant au formulaire inscription
+/** @type {NodeList} fragment du DOM correspondant au formulaire inscription (HTML Form element) */
 export const formReserve = document.querySelector("form[name='reserve']");
 
-// Afficher la fenêtre modale d'inscription au concours
+/**
+ * Afficher la fenêtre modale d'inscription au concours
+ */
 export function launchModal() {
   const form = document.getElementById("form-inscription");
   form.style.display = "block";
@@ -20,7 +22,9 @@ export function launchModal() {
   height = formReserve.clientHeight;
 }
 
-// Cacher la fenêtre d'inscription au concours
+/**
+ * Cacher la fenêtre d'inscription au concours
+ */
 export function hideModal() {
   // Vider le tableau des valeurs et des champs mémorisés
   if (fm.viderTableauMemo() === 8) {

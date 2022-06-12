@@ -8,13 +8,15 @@ import * as mess from "./messages.js";
  *
  */
 
-/*
-    Fonction dédiée à valider des champs de formulaire 
-    suivant les types text, email, number, date, checkbox et radio
-    Cette fontion affiche des messages différents  en cas d'erreur de validation :
-    - Un message spécifique exsitant dans le tableau des messages pour le nom de ce champ input
-    - Ou alors un des messages génériques obtenus depuis l'API Validation
-*/
+/**
+ *   Valider des champs de formulaire
+ *   suivant les types text, email, number, date, checkbox et radio
+ *   et afficher des messages différents  en cas d'erreur de validation :
+ *   - Un message spécifique exsitant dans le tableau des messages pour le nom de ce champ input
+ *   - Ou alors un des messages génériques obtenus depuis l'API Validation
+ *  @param {Node} field Un champ du formulaire d'inscription
+ *  @return {Boolean} validityState.valid Est-ce que les contraintes de validation du champ testé sont respectées ?
+ */
 export const validateField = (field) => {
   // Le message de validation affiché à l'utilisateur
   let message = "";
@@ -44,10 +46,11 @@ export const validateField = (field) => {
   return validityState.valid;
 };
 
-/*
-  Fonction utile pour remettre à la présentation d'un champ
-  à zéro au début d'une validation (RAZ)
-*/
+/**
+ * Fonction utile pour remettre à la présentation d'un champ
+ * à zéro au début d'une validation (RAZ)
+ *  @param {Node} field Un champ du formulaire d'inscription
+ */
 export function resetValidation(field) {
   // Récupérer le noeud parent du champ passé à la fonction
   const formData = field.parentNode;
@@ -62,10 +65,12 @@ export function resetValidation(field) {
   }
 }
 
-/*
-  Fonction utile pour afficher les indications après la
-  validation d'un champ 
-*/
+/**
+ * Fonction utile pour afficher les indications après la
+ * validation d'un champ
+ * @param {Node} field Un champ du formulaire d'inscription
+ * @param {string} message Un message de validation pour l'utilisateur
+ */
 function updateMessageValidation(field, message) {
   // Récupérer le noeud parent du champ passé à la fonction
   let formData = field.parentNode;

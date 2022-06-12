@@ -4,6 +4,7 @@
  *
  * - const findMessage(field)
  */
+/** @type {Array<{name: String, message: String}>}}  */
 const messages = [
   {
     name: "first",
@@ -27,10 +28,12 @@ const messages = [
   },
 ];
 
-/* 
-   Rechercher et trouver un message spécifique dans le tableau
-   ou sinon le remplacer par un message générique de l'APi
-*/
+/**
+ * Rechercher et trouver un message spécifique dans le tableau
+ * ou sinon renvoyer un message générique de l'API
+ * @param {Node} field Un champ du formulaire d'inscription
+ * @return {String} message Un message de validation d'erreur
+ */
 export const findMessage = (field) => {
   let message = "";
   // Chercher si le message spécifique d'erreur existe pour un champ

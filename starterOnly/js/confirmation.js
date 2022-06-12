@@ -8,10 +8,10 @@ import * as md from "./modal.js";
  *
  */
 
-/*
-    Créer et afficher le formulaire de confirmation
-    en modifiant le DOM du formulaire validé
-*/
+/**
+ * Créer et afficher le formulaire de confirmation
+ * en modifiant le DOM du formulaire validé.
+ */
 export function createFormConfirmation() {
   // Préparer le formulaire de confirmation
   setFormConfirmation();
@@ -31,10 +31,10 @@ export function createFormConfirmation() {
   md.formReserve.appendChild(close);
 }
 
-/*
-    Préparer l'affichage du formulaire
-    de confirmation à partir du formulaire validée
-*/
+/**
+ *  Préparer l'affichage du formulaire
+ *  de confirmation à partir du formulaire validée.
+ */
 function setFormConfirmation() {
   // Récupérer les éléments champs, le texte et le bouton dans une collection
   const formItems = md.formReserve.querySelectorAll(
@@ -46,10 +46,12 @@ function setFormConfirmation() {
   md.formReserve.style.height = `${md.height}px`;
 }
 
-/*
-    Ajouter un paragraphe et son texte 
-    dans le formulaire de confirmation
-*/
+/**
+ *  Ajouter un paragraphe et son texte
+ *  dans le formulaire de confirmation.
+ *  @param {String} strTexte Un texte à afficher dans un paragraphe
+ *  @return {Object} para Un paragraphe HTML <p>
+ */
 let addParagraph = (strTexte) => {
   // Préparer un paragraphe: votre inscription
   let para = document.createElement("p");

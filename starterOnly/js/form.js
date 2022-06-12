@@ -12,23 +12,24 @@ import * as func from "./functions.js";
  *
  */
 
-// Récupérer un ensemble d'élements du formulaire à valider
+/** @type {NodeList} Une collection de tous les champs du formulaire d'inscription à saisir */
 export const fields = document.querySelectorAll(
   '.formData input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="checkbox"], input[type="radio"]'
 );
-// Tableau pour stocker les valeurs des champs d'une inscription
-let arrInscription = new Array();
+/** @type {Array.<{String}>} Tableau pour stocker les valeurs des champs d'une inscription */
+let arrInscription = [];
 
-/*
-  Fonction principale contenant la logique de validation du formulaire
-*/
+/**
+ * Fonction principale contenant la logique de validation du formulaire
+ * @return {Boolean} Valide ou en erreur de validation
+ */
 export const checkValidity = () => {
   // Flag formulaire
   let valid = true;
   // Flag champ
   let ok = true;
   // Mémoriser les champs en erreur
-  let fieldsErrorsFocus = new Array();
+  let fieldsErrorsFocus = [];
   // Parcourir les champs input à contrôler du formulaire
   for (let input of fields) {
     // Un test de validation doit se faire Ssi il s'agit du premier radio de groupe
@@ -58,10 +59,12 @@ export const checkValidity = () => {
   return valid;
 };
 
-/*
-    Obtenir valeur d'un champ saisi par l'utilisateur
-    Déterminer la valeur d'un champ  dépend du type du champ
-*/
+/**
+ *  Obtenir la valeur d'un champ saisi par l'utilisateur, déterminer la valeur
+ *  d'un champ  dépend du type du champ.
+ *  @param {Node} input Un champ saisi dans le formulaire d'inscription d'un des types input possibles
+ *  @return {String} | {Boolean} La valeur saisie et renseignée dans le formulaire par l'utilisateur
+ */
 const getFieldValue = (input) => {
   let valeur;
   switch (input.type) {
@@ -82,10 +85,12 @@ const getFieldValue = (input) => {
   return valeur;
 };
 
-/*
-    Déterminer si un radio est le premier élément de son groupe
-    car seule la validité du premier radio du groupe a besoin d'être testée
-*/
+/**
+ *  Déterminer si un radio est le premier élément de son groupe
+ *  car seule la validité du premier radio d'un groupe de radios a besoin d'être testée.
+ *  @param {Node} input Un input de type radio
+ *  @return {Boolean} Est le premier radio de son groupe de radios ?
+ */
 const firstRadio = (input) => {
   if (input.type !== "radio") {
     return false;
@@ -102,10 +107,11 @@ const firstRadio = (input) => {
   return isFirst;
 };
 
-/*
-    Obtenir la valeur du bouton radio sélectionné 
-    pour les tournois (=le nom de la ville)
-*/
+/**
+ *  Obtenir la valeur du bouton radio sélectionné
+ *  pour les tournois.
+ *  @return {String} Le nom de la ville du tournoi choisi
+ */
 const getTournament = () => {
   // Obtenir la collection des radios des tournois
   const radios = document.getElementsByName("location");
@@ -126,10 +132,10 @@ const getTournament = () => {
   }
 };
 
-/*
-  Remise à Zéro de la présentation de toutes les  erreurs  de 
-  validation affichées sur le formulaire
-*/
+/**
+ * Remettre à Zéro de la présentation de toutes les  erreurs  de
+ * validation affichées sur le formulaire.
+ */
 export const cleanAllFormData = () => {
   // La collection fields contient tous les élements du formulaire à valider
   for (let input of fields) {
@@ -137,18 +143,18 @@ export const cleanAllFormData = () => {
   }
 };
 
-/*
-    Vider le tableau des valeurs et des champs mémorisés
-    Et renvoyer le nombre d'éléments supprimés
-*/
+/**
+ *  Vider le tableau des valeurs et des champs mémorisés
+ *  et renvoyer le nombre d'éléments supprimés.
+ */
 export const viderTableauMemo = () => {
   let elements = arrInscription.splice(0, arrInscription.length);
   return elements.length;
 };
 
-/*
-    Ecrire sur la console toutes les valeurs mémorisées d'une inscription validée
-*/
-export function afficherTableauMemo() {
+/**
+ *  Ecrire sur la console toutes les valeurs mémorisées d'une inscription validée.
+ */
+export const afficherTableauMemo = () => {
   console.table(arrInscription);
-}
+};
